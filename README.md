@@ -1,4 +1,4 @@
 # NHN_Academy
 
-exchangeProjcet
+- exchangeProjcet
 - pair programming
