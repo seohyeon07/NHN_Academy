@@ -1,4 +1,5 @@
 # NHN_Academy
 
-- exchangeProjcet
+1. exchangeProjcet
 - pair programming
+- Curreny Service
