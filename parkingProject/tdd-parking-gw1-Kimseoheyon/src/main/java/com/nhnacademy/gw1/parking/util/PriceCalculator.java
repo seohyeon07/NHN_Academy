@@ -1,14 +1,50 @@
 package com.nhnacademy.gw1.parking.util;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
-abstract public class PriceCalculator {
+public class PriceCalculator {
 
-    protected final static int THIRTY_MINUTE_TO_SECONDS = 1800;
-    protected final static int TEN_MINUTE_TO_SECONDS = 600;
+    private final PricePolicy pricePolicy;
 
-    protected final static int BASE_CHARGE = 1000;
-    protected final static int EXTRA_CHARGE = 500;
+    public PriceCalculator(PricePolicy pricePolicy) {
+        this.pricePolicy = pricePolicy;
+    }
 
-    abstract public int calculate(LocalDateTime entranceTime, LocalDateTime leaveTime);
+    public int calculate(LocalDateTime entranceTime, LocalDateTime leaveTime) {
+        int elapsedDate = calculateElapsedDate(entranceTime, leaveTime);
+        if (elapsedDate > 0) {
+            return elapsedDate * pricePolicy.getDailyMaxCharge();
+        }
+
+        long parkingSeconds = ChronoUnit.SECONDS.between(entranceTime, leaveTime);
+        if (parkingSeconds <= pricePolicy.getFreeSeconds()) {
+            return 0;
+        }
+
+        return calculateCharge(parkingSeconds);
+
+    }
+
+    private int calculateElapsedDate(LocalDateTime entranceTime, LocalDateTime leaveTime ) {
+        int entranceDate = entranceTime.getDayOfMonth();
+        int exitDate = leaveTime.getDayOfMonth();
+
+        return exitDate - entranceDate;
+    }
+
+    private int calculateCharge(long parkingSeconds) {
+        int charge = pricePolicy.getBaseCharge();
+
+        long excessTime = parkingSeconds - pricePolicy.getFreeSeconds() - pricePolicy.getBaseSeconds();
+
+        if (excessTime < 0) {
+            return charge;
+        }
+
+        charge += excessTime / pricePolicy.getExtraSeconds() * pricePolicy.getExtraCharge();
+        charge += excessTime % pricePolicy.getExtraSeconds() > 0 ? 500 : 0;
+
+        return Math.min(charge, pricePolicy.getDailyMaxCharge());
+    }
 }
