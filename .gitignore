@@ -2,3 +2,4 @@
 out
 target
 *.imi
+.DS_Store
