@@ -11,16 +11,22 @@ public class Exit {
 
     private final Clock clock;
 
+//    private final PriceCalculator priceCalculator;
     private final PriceCalculator priceCalculator;
 
     // 출차시 요금 정산
+
+//
+//    public Exit(Clock clock, PriceCalculator priceCalculator) {
+//        this.clock = clock;
+//        this.priceCalculator = priceCalculator;
+//    }
 
 
     public Exit(Clock clock, PriceCalculator priceCalculator) {
         this.clock = clock;
         this.priceCalculator = priceCalculator;
     }
-
 
     // 주차 요금 계산 후 결제 완료
     public void pay(EntranceMeta entranceMeta) {
