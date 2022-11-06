@@ -2,14 +2,12 @@ package com.nhnacademy.gw1.parking.util;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class PriceCalculator {
 
     private final PricePolicy pricePolicy;
-
-    public PriceCalculator(PricePolicy pricePolicy) {
-        this.pricePolicy = pricePolicy;
-    }
 
     public int calculate(LocalDateTime entranceTime, LocalDateTime leaveTime) {
         int elapsedDate = calculateElapsedDate(entranceTime, leaveTime);
@@ -23,10 +21,9 @@ public class PriceCalculator {
         }
 
         return calculateCharge(parkingSeconds);
-
     }
 
-    private int calculateElapsedDate(LocalDateTime entranceTime, LocalDateTime leaveTime ) {
+    private int calculateElapsedDate(LocalDateTime entranceTime, LocalDateTime leaveTime) {
         int entranceDate = entranceTime.getDayOfMonth();
         int exitDate = leaveTime.getDayOfMonth();
 
@@ -36,7 +33,8 @@ public class PriceCalculator {
     private int calculateCharge(long parkingSeconds) {
         int charge = pricePolicy.getBaseCharge();
 
-        long excessTime = parkingSeconds - pricePolicy.getFreeSeconds() - pricePolicy.getBaseSeconds();
+        long excessTime =
+                parkingSeconds - pricePolicy.getFreeSeconds() - pricePolicy.getBaseSeconds();
 
         if (excessTime < 0) {
             return charge;

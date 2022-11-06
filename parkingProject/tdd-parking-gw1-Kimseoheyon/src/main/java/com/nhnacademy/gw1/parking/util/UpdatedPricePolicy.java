@@ -29,6 +29,6 @@ public class UpdatedPricePolicy implements PricePolicy {
 
     @Override
     public int getDailyMaxCharge() {
-        return 15_000;
+        return 15000;
     }
 }

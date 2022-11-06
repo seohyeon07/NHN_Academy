@@ -1,18 +1,18 @@
 package com.nhnacademy.gw1.parking.service;
 
 import com.nhnacademy.gw1.parking.entity.Car;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public class ParkingSpace {
 
     private final int code;
     private Car car;
 
-    public ParkingSpace(int code) {
-        this.code = code;
-    }
-
     public void parking(Car car) {
-        if (this.car != null) { // 현재 칸에 차량이 있는지 확인 후 차량 배치
+        if (this.car != null) {
             throw new IllegalStateException("Allocated space!");
         }
         this.car = car;
@@ -24,9 +24,5 @@ public class ParkingSpace {
 
     public void leave() {
         car = null;
-    }
-
-    public Car getCar() {
-        return car;
     }
 }

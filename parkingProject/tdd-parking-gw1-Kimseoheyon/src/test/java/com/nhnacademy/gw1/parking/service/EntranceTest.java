@@ -1,6 +1,7 @@
 package com.nhnacademy.gw1.parking.service;
 
 import com.nhnacademy.gw1.parking.entity.Car;
+import com.nhnacademy.gw1.parking.entity.CarType;
 import com.nhnacademy.gw1.parking.entity.EntranceMeta;
 import java.time.Clock;
 import java.time.Instant;
@@ -18,7 +19,6 @@ class EntranceTest {
     Clock clock;
     Car car;
 
-
     @BeforeEach
     void setUp() {
         Instant instant = Instant.parse("2022-11-05T10:15:30.00Z");
@@ -26,19 +26,25 @@ class EntranceTest {
         clock = Clock.fixed(instant, zoneId);
         entrance = new Entrance(clock);
         car = Mockito.mock(Car.class);
-
     }
 
     @Test
     @DisplayName("주차장 입구 차량 스캔 성공")
     void entrance_scan_success() {
-
+        Mockito.when(car.getCarType()).thenReturn(CarType.NORMAL_CAR);
         EntranceMeta entranceTime = entrance.scan(car);
 
         Assertions.assertThat(entranceTime.getCar()).isEqualTo(car);
         Assertions.assertThat(entranceTime.getEntranceTime()).isEqualTo(LocalDateTime.now(clock));
-
-
     }
 
+    @Test
+    @DisplayName("대형차 출입 불가능")
+    void enter_largeCar_fail() {
+        Mockito.when(car.getCarType()).thenReturn(CarType.LARGE_CAR);
+
+        Assertions.assertThatThrownBy(() -> entrance.scan(car))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("Can not enter carType : ");
+    }
 }

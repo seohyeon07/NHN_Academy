@@ -10,7 +10,6 @@ class UpdatedPricePolicyCalculatorTest {
 
     PriceCalculator defaultPriceCalculator = new PriceCalculator(new UpdatedPricePolicy());
 
-
     @ParameterizedTest
     @CsvSource({
             "1800,0",
@@ -41,8 +40,5 @@ class UpdatedPricePolicyCalculatorTest {
         int result = defaultPriceCalculator.calculate(baseTime, leaveTime);
 
         Assertions.assertThat(result).isEqualTo(expectedCharge);
-
     }
-
-
 }

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class MapParkingSpaceRepository implements ParkingSpaceRepository {
 
-    private final int MAX_SIZE = 10;
+    private final static int MAX_SIZE = 10;
     private final Map<Integer, ParkingSpace> parkingSpaces = new HashMap<>();
 
     public MapParkingSpaceRepository() {
@@ -17,11 +17,15 @@ public class MapParkingSpaceRepository implements ParkingSpaceRepository {
     }
 
     @Override
+    public ParkingSpace findByCode(int code) {
+        return parkingSpaces.get(code);
+    }
+
+    @Override
     public ParkingSpace findEmptyParkingSpace() {
-        // 차량 주차.. 공간이 있으면 저장, or 예외
         return parkingSpaces.values()
                 .stream()
-                .filter(v -> v.isEmpty())
+                .filter(ParkingSpace::isEmpty)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("Full ParkingLot!"));
     }

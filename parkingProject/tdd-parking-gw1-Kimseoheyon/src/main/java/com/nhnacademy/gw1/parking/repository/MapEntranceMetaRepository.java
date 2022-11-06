@@ -13,13 +13,11 @@ public class MapEntranceMetaRepository implements EntranceMetaRepository {
     @Override
     public void save(EntranceMeta entranceMeta) {
         entranceMetaMap.put(entranceMeta.getCar(), entranceMeta);
-
     }
 
     @Override
     public void remove(Car car) {
         entranceMetaMap.remove(car);
-
     }
 
     @Override

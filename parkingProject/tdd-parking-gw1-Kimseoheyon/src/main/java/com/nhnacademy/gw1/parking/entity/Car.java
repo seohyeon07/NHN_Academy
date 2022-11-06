@@ -1,18 +1,26 @@
 package com.nhnacademy.gw1.parking.entity;
 
-public class Car {
+import lombok.RequiredArgsConstructor;
 
-    private final String carNumber;
+@RequiredArgsConstructor
+public class Car {
 
     private final User user;
 
+    private final String carNumber;
+
+    private final CarType carType;
+
     public Car(User user, String carNumber) {
-        this.carNumber = carNumber;
-        this.user = user;
+        this(user, carNumber, CarType.NORMAL_CAR);
     }
 
     public User getUser() {
-        return user;
+        return this.user;
+    }
+
+    public CarType getCarType() {
+        return this.carType;
     }
 
     public String getCarNumber() {

@@ -39,7 +39,6 @@ class ParkingSystemTest {
         car = Mockito.mock(Car.class);
         entranceMeta = Mockito.mock(EntranceMeta.class);
 
-
     }
 
     @Test

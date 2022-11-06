@@ -3,7 +3,6 @@ package com.nhnacademy.gw1.parking.service;
 
 import com.nhnacademy.gw1.parking.entity.Car;
 import com.nhnacademy.gw1.parking.repository.ParkingSpaceRepository;
-import java.lang.reflect.Field;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +17,6 @@ class ParkingLotTest {
     ParkingSpaceRepository parkingSpaceRepository;
     Car car;
 
-    Field parkingSpaces;
 
     @BeforeEach
     void setUp() {
@@ -31,13 +29,11 @@ class ParkingLotTest {
     @Test
     @DisplayName("주차 성공")
     void parking_success() {
-
         Mockito.when(parkingSpaceRepository.findEmptyParkingSpace()).thenReturn(parkingSpace);
 
-        parkingLot.parkingCar(car); // when
+        parkingLot.parkingCar(car);
 
-        Mockito.verify(parkingSpace, Mockito.atLeastOnce()).parking(car); // then
-
+        Mockito.verify(parkingSpace, Mockito.atLeastOnce()).parking(car);
     }
 
     @Test
@@ -49,7 +45,18 @@ class ParkingLotTest {
         Assertions.assertThatThrownBy(() -> parkingLot.parkingCar(car))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Full ParkingLot!");
+    }
 
+    @Test
+    @DisplayName("원하는 위치에 주차 성공")
+    void wanted_parkingSpace_parking_success() {
+        int code = 1;
+
+        Mockito.when(parkingSpaceRepository.findByCode(code)).thenReturn(parkingSpace);
+
+        parkingLot.parkingCar(car, code);
+
+        Mockito.verify(parkingSpace, Mockito.atLeastOnce()).parking(car);
     }
 
     @Test
@@ -60,7 +67,6 @@ class ParkingLotTest {
         parkingLot.leave(car);
 
         Mockito.verify(parkingSpace).leave();
-
     }
 
     @Test
@@ -72,7 +78,5 @@ class ParkingLotTest {
         Assertions.assertThatThrownBy(() -> parkingLot.leave(car))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Not found car!");
-
     }
-
 }

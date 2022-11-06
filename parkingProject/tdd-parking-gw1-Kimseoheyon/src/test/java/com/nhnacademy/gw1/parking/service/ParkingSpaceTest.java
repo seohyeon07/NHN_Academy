@@ -2,8 +2,6 @@ package com.nhnacademy.gw1.parking.service;
 
 
 import com.nhnacademy.gw1.parking.entity.Car;
-import com.nhnacademy.gw1.parking.entity.User;
-import com.nhnacademy.gw1.parking.service.ParkingSpace;
 import java.lang.reflect.Field;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +23,6 @@ class ParkingSpaceTest {
     @Test
     @DisplayName("주차 칸에 차량 주차 성공")
     void parkingSpace_parking_success() {
-
         Assertions.assertThatCode(() -> parkingSpace.parking(car))
                 .doesNotThrowAnyException();
 
@@ -34,10 +31,8 @@ class ParkingSpaceTest {
     @Test
     @DisplayName("주차 칸에 차량 주차 실패")
     void parkingSpace_parking_fail() {
+        parkingSpace.parking(car);
 
-        parkingSpace.parking(car);  // 먼저 주차를 시키기..
-
-        // 한번 더 주차시키면 오류가 터지겠지?
         Assertions.assertThatThrownBy(() -> parkingSpace.parking(car))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Allocated space!");
@@ -46,7 +41,6 @@ class ParkingSpaceTest {
     @Test
     @DisplayName("출차 성공")
     void parkingSpace_leave_success() throws NoSuchFieldException, IllegalAccessException {
-        User user = Mockito.mock(User.class);
         Field carField = ParkingSpace.class.getDeclaredField("car");
         carField.setAccessible(true);
         carField.set(parkingSpace, car);
@@ -57,5 +51,4 @@ class ParkingSpaceTest {
 
         Assertions.assertThat(result).isNull();
     }
-
 }

@@ -27,24 +27,20 @@ class MapEntranceMetaRepositoryTest {
         Field mapField = MapEntranceMetaRepository.class.getDeclaredField("entranceMetaMap");
         mapField.setAccessible(true);
         mapReflection = (Map<Car, EntranceMeta>) mapField.get(mapEntranceMetaRepository);
-
     }
 
     @Test
     @DisplayName("입차 시간 등록 성공")
-    void entranceMeta_save_success() throws IllegalAccessException {
-
+    void entranceMeta_save_success() {
         Mockito.when(entranceMeta.getCar()).thenReturn(car);
         mapEntranceMetaRepository.save(entranceMeta);
 
         Assertions.assertThat(mapReflection).containsValue(entranceMeta);
-
     }
 
     @Test
     @DisplayName("출차 완료된 차량 입차 시간 삭제")
     void entranceMeta_remove_success() {
-
         mapEntranceMetaRepository.remove(car);
 
         Assertions.assertThat(mapReflection).doesNotContainValue(entranceMeta);
@@ -53,7 +49,6 @@ class MapEntranceMetaRepositoryTest {
     @Test
     @DisplayName("입차시간 정보 확인 성공")
     void entranceTime_check_success() {
-
         mapReflection.put(car, entranceMeta);
 
         EntranceMeta result = mapEntranceMetaRepository.getByCar(car);
@@ -64,11 +59,8 @@ class MapEntranceMetaRepositoryTest {
     @Test
     @DisplayName("입차시간 정보 확인 실패")
     void entranceTime_check_fail() {
-
         Assertions.assertThatThrownBy(() -> mapEntranceMetaRepository.getByCar(car))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Car not found!");
-
     }
-
 }

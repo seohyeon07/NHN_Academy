@@ -5,6 +5,8 @@ import com.nhnacademy.gw1.parking.service.ParkingSpace;
 
 public interface ParkingSpaceRepository {
 
+    ParkingSpace findByCode(int code);
+
     ParkingSpace findEmptyParkingSpace();
 
     ParkingSpace findByCar(Car car);

@@ -18,19 +18,27 @@ class MapParkingSpaceRepositoryTest {
     ParkingSpace parkingSpace;
     Car car;
 
-    int spaceId = 1;
+    int code = 1;
 
     @BeforeEach
     void setUp() throws NoSuchFieldException, IllegalAccessException {
         parkingSpaces = new HashMap<>();
         parkingSpace = Mockito.mock(ParkingSpace.class);
         car = Mockito.mock(Car.class);
-        parkingSpaces.put(spaceId, parkingSpace);
+        parkingSpaces.put(code, parkingSpace);
 
         Field parkingSpacesField = MapParkingSpaceRepository.class.getDeclaredField(
                 "parkingSpaces");
         parkingSpacesField.setAccessible(true);
         parkingSpacesField.set(mapParkingSpaceRepository, parkingSpaces);
+    }
+
+    @Test
+    @DisplayName("원하는 주차 공간 꺼내기")
+    void get_wanted_parkingSpace() {
+        ParkingSpace result = mapParkingSpaceRepository.findByCode(code);
+
+        Assertions.assertThat(result).isEqualTo(parkingSpace);
     }
 
     @Test

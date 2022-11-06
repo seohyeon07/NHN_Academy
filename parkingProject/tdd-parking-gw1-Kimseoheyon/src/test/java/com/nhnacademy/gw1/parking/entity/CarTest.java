@@ -25,7 +25,5 @@ class CarTest {
 
         assertThat(car).isNotNull();
         assertThat(car.getCarNumber()).isEqualTo(carNumber);
-
     }
-
 }

@@ -19,6 +19,7 @@ class ExitTest {
     Exit exit;
     Clock clock;
     PriceCalculator priceCalculator;
+    DiscountService discountService;
     Car car;
     User user;
     EntranceMeta entranceMeta;
@@ -30,19 +31,23 @@ class ExitTest {
         clock = Clock.fixed(instant, zoneId);
         priceCalculator = Mockito.mock(PriceCalculator.class);
         entranceMeta = Mockito.mock(EntranceMeta.class);
+        discountService = Mockito.mock(DiscountService.class);
         car = Mockito.mock(Car.class);
         user = Mockito.mock(User.class);
-        exit = new Exit(clock, priceCalculator);
+        exit = new Exit(clock, priceCalculator, discountService);
     }
 
     @Test
     @DisplayName("출구에서 주차 요금 정산")
     void payment_success() {
         LocalDateTime entranceTime = LocalDateTime.now(clock);
+        int expectedCharge = 1000;
 
         Mockito.when(entranceMeta.getEntranceTime()).thenReturn(entranceTime);
         Mockito.when(priceCalculator.calculate(Mockito.eq(entranceTime),
-                Mockito.any(LocalDateTime.class))).thenReturn(1000);
+                Mockito.any(LocalDateTime.class))).thenReturn(expectedCharge);
+        Mockito.when(discountService.calculateDiscountedCharge(car, expectedCharge))
+                .thenReturn(expectedCharge);
         Mockito.when(entranceMeta.getCar()).thenReturn(car);
         Mockito.when(car.getUser()).thenReturn(user);
 
@@ -50,8 +55,6 @@ class ExitTest {
 
         Mockito.verify(priceCalculator)
                 .calculate(Mockito.eq(entranceTime), Mockito.any(LocalDateTime.class));
-        Mockito.verify(user).pay(Mockito.anyInt());
+        Mockito.verify(user).pay(expectedCharge);
     }
-
-
 }
