@@ -1,0 +1,45 @@
+<html>
+<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+</style>
+<head>
+  <title>문의사항 목록</title>
+</head>
+<body>
+<h1>문의사항 목록</h1>
+<h2>&#128640; 관리자 페이지입니다.</h2>
+<form method="get" action="/cs/admin/">
+  <span>&#128161;</span> 분류 검색 : <input type="text" name="type" placeholder="분류명을 입력해주세요">
+  <input type="submit" value="검색"><br>
+</form>
+<table border="1" style="width: 50%">
+  <thead style="background: cornflowerblue">
+  <th>NO.</th>
+  <th>분류</th>
+  <th>작성자</th>
+  <th>제목</th>
+  <th>등록날짜</th>
+  <th>답변여부</th>
+  </thead>
+  <tbody>
+    <tr th:each="item,i:${postList}">
+      <td th:text="${i.count}"></td>
+      <td th:text="${item.type}"></td>
+      <td th:text="${item.userName}"></td>
+      <td>
+        <a th:href="@{/cs/admin/answer/{id} (id=${item.id})}" th:text="${item.title}"></a>
+      </td>
+      <td th:text="${item.dateTime}"></td>
+      <td th:text="${item.replyCheck} ? 'Yes':'No'"></td>
+    </tr>
+  </tbody>
+
+</table></br>
+
+<a href="/cs/logout">&#10140; 로그아웃</a>
+
+</body>
+</html>

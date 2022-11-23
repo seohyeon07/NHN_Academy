@@ -1,0 +1,20 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>문의사항 작성</title>
+</head>
+<body>
+<h2>문의 사항</h2>
+<form method="post" action="/cs/inquiry" enctype="multipart/form-data">
+  <span>&#128161;</span> 분류 : <select name="type" ><option value="불만접수">불만 접수</option><option value="제안">제안</option><option value="환불/교환">환불/교환</option><option value="칭찬해요">칭찬해요</option><option value="기타문의">기타 문의</option></select></br>
+  <span>&#128161;</span> 제목 : <input type="text" name="title"></br></br>
+  + 문의 사항 + <br/>
+  <textarea name="content" cols="70" rows="20"></textarea>
+  <br/>
+  <span>&#128161;</span>이미지 등록(gif, jpg, jpeg, png) : <input type="file" name="file" accept=".gif, .jpg, .jpeg, .png" multiple/></br></br>
+  <input type="submit" value="등록하기"></br>
+</form>
+<a href="/cs/">취소</a>
+
+</body>
+</html>

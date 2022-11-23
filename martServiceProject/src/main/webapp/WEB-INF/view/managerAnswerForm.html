@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>문의 사항</title>
+</head>
+<body>
+<h2>문의 사항 조회</h2>
+<span>&#128161;</span> 작성자 이름 : <span th:text="${post.userName}"></span> <br/>
+<span>&#128161;</span> 분류 : <span th:text="${post.type}"></span><br/>
+<span>&#128161;</span> 제목 : <span th:text="${post.title}"></span><br>
+<span>&#128161;</span> 작성일 : <span th:text="${post.dateTime}"></span></br></br>
++ 문의 사항 + <br/>
+<textarea name="content" cols="70" rows="20" disabled th:text="${post.content}"></textarea><br/>
+<th:block th:each="fileName: ${post.fileName}">
+  <a th:href="@{/imagesView/{fileName}(fileName=${fileName})}" target="_blank">
+    <img width="300px" th:src="@{/imagesView/{fileName}(fileName=${fileName})}"> </br>
+  </a>
+</th:block>
+</br>
+
+<form method="post" th:action="@{/cs/admin/answer/{id}(id=${id})}">
+  <span>&#128161;</span> 답변 <span>&#128161;</span> CS 담당자 : <input type="text" name="csName"/></br>
+  <textarea name="comment" cols="70" rows="10"></textarea></br>
+  <input type="submit" value="답변하기"></br>
+</form>
+<button><a href="/cs/admin">취소</a></button>
+
+</body>
+</html>
